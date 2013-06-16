@@ -8,6 +8,8 @@
  *
  * @author Richard McCartney <richard.mccartney@me.com / twitter - @Rich_McCartney>
  *
+ * Updated 16/06/2013
+ *
  */
 
 jQuery(document).ready(function($) {
