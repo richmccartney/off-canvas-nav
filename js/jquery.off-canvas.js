@@ -23,7 +23,46 @@ jQuery(document).ready(function($) {
 		open = false,
 		speed = 350,
 		slide = '70%',
-		pos = 'relative';
+		pos = 'relative',
+		mobile = false,
+		deviceWidth = window.screen.width;
+
+	/**
+	 * isMobile function checks weather the user is on a mobile device. This is determined by device width.
+	 * If so the mobile variable will either be set to false or true. This will effect
+	 * how the off canvas navigation is animated.
+	 *
+	 */
+
+	function isMobile() {
+
+		if(deviceWidth < 1024) {
+
+            mobile = true;
+
+            /**
+             * Adds a class to the inner wrapper. This will have the webkit animation styles
+             * which are only used for mobile devices.
+             *
+             */
+
+			wrap.addClass('mobile-animate');
+
+        } else {
+
+        	/**
+             * If its not a mobile device set the function to false and remove any wrapper
+             * styles.
+             *
+             */
+
+        	mobile = false;
+
+			wrap.removeClass('mobile-animate');
+        };
+	};
+
+	isMobile();
 
 	/**
 	 * The reveal navigation function. This function shall set the open state to true
@@ -36,16 +75,27 @@ jQuery(document).ready(function($) {
 		open = true;
 
 		// Set position to fixed
-		pos = 'fixed';
 		slide = '70%';
 
-		// animate wrap to reaveal navigation
-		wrap.animate({
-			left : slide,
-			position : pos
-		}, speed);
+		if (mobile == false) {
 
-		navi.show(100);
+			// Desktop animation
+			wrap.animate({
+				left : slide
+			}, speed);
+
+			navi.show(100);
+
+		} else if (mobile == true) {
+
+			// Mobile animation
+			wrap.css({
+				left : slide
+			});
+
+			navi.show();
+		};
+
 	};
 
 	/**
@@ -60,15 +110,27 @@ jQuery(document).ready(function($) {
 
 		// Set side amount to 0 and position relative
 		slide = '0%';
-		pos = 'relative';
-
-		navi.hide(100);
 
 		// Hide animation
-		wrap.animate({
-			left : slide,
-			position : pos
-		}, speed);
+		if (mobile == false) {
+
+			// Desktop animation
+			navi.hide(100);
+
+			wrap.animate({
+				left : slide
+			}, speed);
+
+		} else if (mobile == true) {
+
+			// Mobile animation
+			navi.hide();
+
+			wrap.css({
+				left : slide
+			});
+
+		};
 
 	};
 
@@ -112,7 +174,7 @@ jQuery(document).ready(function($) {
 	 */
 
 	$(window).resize(function() {
-		
+
 		var length = $(window).width();
 
 		/**
@@ -128,9 +190,9 @@ jQuery(document).ready(function($) {
 		};
 
 		/**
-		 * This secondary if statement will check just based on window size weather to 
+		 * This secondary if statement will check just based on window size weather to
 		 * show or hide the navigation. This will only apply when the slide in navigation
-		 * has NOT be activated. This is a failsafe as well if the slider has been run as 
+		 * has NOT be activated. This is a failsafe as well if the slider has been run as
 		 * the Hide/Show functions will apply CSS of { Display : none; } on the navigation
 		 * this is to resasure they are correctly hidden or visible.
 		 *
@@ -143,4 +205,5 @@ jQuery(document).ready(function($) {
 		}
 
 	});
+
 });
