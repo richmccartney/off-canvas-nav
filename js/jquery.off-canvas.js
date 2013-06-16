@@ -62,6 +62,11 @@ jQuery(document).ready(function($) {
         };
 	};
 
+	/**
+	 * Run isMobile function
+	 *
+	 */
+
 	isMobile();
 
 	/**
